@@ -2,10 +2,24 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.Gyroscope;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp()
-public class JustDrive extends LinearOpMode {
+public class Q1OpMode extends LinearOpMode {
     // Declare motors as a private attribute to the
     // class (Edwin isn't sure why it throws an error
     // when they are scoped to runOpMode).
@@ -13,6 +27,16 @@ public class JustDrive extends LinearOpMode {
     public DcMotor frontright;
     public DcMotor backleft;
     public DcMotor backright;
+    public DcMotor liftleft;
+    public DcMotor liftright;
+    public DcMotor vleft;
+    public DcMotor vright;
+
+    public Servo fourBar;
+    public Servo wrist;
+    public Servo claw;
+    public CRServo leftintake;
+    public CRServo rightintake;
 
     double f_x;
     double f_y;
@@ -34,6 +58,17 @@ public class JustDrive extends LinearOpMode {
         frontright = hardwareMap.get(DcMotor.class, "frontright");
         backright = hardwareMap.get(DcMotor.class, "backright");
         backleft = hardwareMap.get(DcMotor.class, "backleft");
+        liftleft = hardwareMap.get(DcMotor.class, "liftleft");
+        liftright = hardwareMap.get(DcMotor.class, "liftright");
+        vleft = hardwareMap.get(DcMotor.class, "vleft");
+        vright = hardwareMap.get(DcMotor.class, "vright");
+
+        claw = hardwareMap.get(Servo.class, "claw");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        fourBar = hardwareMap.get(Servo.class, "v4bar");
+        leftintake = hardwareMap.get(CRServo.class, "leftintake");
+        rightintake = hardwareMap.get(CRServo.class, "rightintake");
+
 
         double speed = 0.5;
         int mode = 2;
@@ -52,13 +87,20 @@ public class JustDrive extends LinearOpMode {
         frontright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //wave.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        vleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        vright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set the motor directions.
         frontleft.setDirection(DcMotor.Direction.REVERSE);
         frontright.setDirection(DcMotor.Direction.FORWARD);
         backleft.setDirection(DcMotor.Direction.REVERSE);
         backright.setDirection(DcMotor.Direction.FORWARD);
+        liftleft.setDirection(DcMotor.Direction.FORWARD);
+        liftright.setDirection(DcMotor.Direction.FORWARD);
+        vleft.setDirection(DcMotor.Direction.FORWARD);
+        vright.setDirection(DcMotor.Direction.FORWARD);
 
         // Inform the user that everything has been initialized.
         telemetry.addData("Status", "Initialized");
@@ -84,8 +126,12 @@ public class JustDrive extends LinearOpMode {
 
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;
-            double rotX = gamepad1.right_stick_x;
+            double rotX = -gamepad1.right_stick_x;
 
+            double Horizontal = gamepad2.left_stick_x;
+            double Vertical = gamepad2.right_stick_y;
+            double in = gamepad2.left_trigger;
+            double out = gamepad2.right_trigger;
 
             // Give controller joysticks a deadzone.
             if (-0.1 < f_x && f_x < 0.1) {
@@ -106,13 +152,14 @@ public class JustDrive extends LinearOpMode {
             f_y *= 1;
             f_r *= 1;
 
-            // Set up motor powers for mecanum.
+            // Set up motor powers for mechanum.
             f_frontright  = y - x - rotX;
             f_frontleft = y + x + rotX;
             f_backright   = y + x - rotX;
             f_backleft  = y - x + rotX;
 
 
+            /*
             if (slow_bot){
                 speed = 0.3;
                 mode = 1;
@@ -129,6 +176,7 @@ public class JustDrive extends LinearOpMode {
                 speed = 1.0;
                 mode = 4;
             }
+             */
 
             f_frontleft  = f_frontleft*speed;
             f_frontright = f_frontright*speed;
@@ -141,20 +189,68 @@ public class JustDrive extends LinearOpMode {
             backleft.setPower(f_backleft);
             backright.setPower(f_backright);
 
-    /* // Update telemetry data... remove for release.
-      telemetry.addData("Mode:", mode);
-      telemetry.addData("frontleft", f_frontleft);
-      telemetry.addData("frontright", f_frontright);
-      telemetry.addData("backleft", f_backleft);
-      telemetry.addData("backright", f_backright);
-      //telemetry.addData("imu: ", imu.getAngularOrientation());
-      //telemetry.addData("Target Position: ", spinner.getTargetPosition());
-      //telemetry.addData("Target Position 2: ", spinner.getCurrentPosition());
-      //telemetry.addData("Claw Position: ", clawPosition);
-
-      telemetry.update();
-      sleep(10);
-      */
+            if (gamepad2.left_stick_x < -0.2){
+                liftleft.setPower(Horizontal);
+                liftright.setPower(-Horizontal);
+            }
+            else if (gamepad2.left_stick_x > -0.2){
+                liftleft.setPower(Horizontal);
+                liftright.setPower(-Horizontal);
+            }
+            else{
+                liftleft.setPower(0);
+                liftright.setPower(0);
+            }
+            if (gamepad2.right_stick_y < 0.2){
+                vleft.setPower(-Vertical);
+                vright.setPower(Vertical);
+                //fourBar.setPosition(1);
+            }
+            else if (gamepad2.right_stick_y > 0.2){
+                vleft.setPower(-Vertical);
+                vright.setPower(Vertical);
+                fourBar.setPosition(0.18);
+            }
+            else {
+                vleft.setPower(0);
+                vright.setPower(0);
+            }
+            if (gamepad2.left_trigger > 0.1){
+                wrist.setPosition(0.8);
+                leftintake.setPower(-in);
+                rightintake.setPower(in);
+            }
+            else if (gamepad2.right_trigger > 0.1){
+                leftintake.setPower(out);
+                rightintake.setPower(-out);
+            }
+            else if (gamepad2.y){
+                leftintake.setPower(-in);
+                rightintake.setPower(in);
+                wrist.setPosition(0.1);
+            }
+            else {
+                leftintake.setPower(0);
+                rightintake.setPower(0);
+                wrist.setPosition(0.4);
+            }
+            if (gamepad2.b){
+                fourBar.setPosition(0.08);
+            }
+            else if (gamepad2.a){
+                fourBar.setPosition(0.18);
+                claw.setPosition(0.7);
+            }
+            else if (gamepad2.x){
+                fourBar.setPosition(1);
+                claw.setPosition(1);
+            }
+            if (gamepad2.dpad_down){
+                claw.setPosition(0.7);
+            }
+            else if (gamepad2.dpad_up){
+                claw.setPosition(1);
+            }
         }
     }
 }
