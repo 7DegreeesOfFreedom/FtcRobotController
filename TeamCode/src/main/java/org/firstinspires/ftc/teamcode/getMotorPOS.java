@@ -102,7 +102,7 @@ public class getMotorPOS extends LinearOpMode {
                         liftright.setPower(.3);
                     }
                     else if(gamepad2.left_bumper){
-                        wrist.setPosition(DashConfig.wristPosUp);
+                      //  wrist.setPosition(DashConfig.wristPosUp);
 
                         liftleft.setTargetPosition(0);
                         liftright.setTargetPosition(0);
@@ -112,7 +112,7 @@ public class getMotorPOS extends LinearOpMode {
                         liftright.setPower(.3);
                     }
                     if (gamepad2.right_trigger>0.2){
-                        wrist.setPosition(DashConfig.wristPosUp);
+//                        wrist.setPosition(DashConfig.wristPosUp);
                         vleft.setTargetPosition(3100);
                         vright.setTargetPosition(3100);
                         vleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);

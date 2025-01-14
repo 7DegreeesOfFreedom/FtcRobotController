@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.DashConfig.motorpower;
+//import static org.firstinspires.ftc.teamcode.DashConfig.motorpower;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -58,11 +58,11 @@ public class ExtendoTest extends LinearOpMode {
                 liftleft.setPower(0);
             }
             if (gamepad1.right_bumper){
-                vright.setPower(-motorpower);
+                //vright.setPower(-motorpower);
                 vleft.setPower(-0.5);
             }
             else if (gamepad1.left_bumper){
-                vright.setPower(motorpower);
+                //vright.setPower(motorpower);
                 vleft.setPower(0.5);
             }
             else if ((gamepad1.left_bumper) && (gamepad1.right_bumper)){

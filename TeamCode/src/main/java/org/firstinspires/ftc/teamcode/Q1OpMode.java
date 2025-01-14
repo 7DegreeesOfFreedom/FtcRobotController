@@ -70,7 +70,7 @@ public class Q1OpMode extends LinearOpMode {
         rightintake = hardwareMap.get(CRServo.class, "rightintake");
 
 
-        double speed = 0.5;
+        double speed = 0.3;
         int mode = 2;
         //wave = hardwareMap.get(DcMotor.class, "wave");
         //imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -159,7 +159,7 @@ public class Q1OpMode extends LinearOpMode {
             f_backleft  = y - x + rotX;
 
 
-            /*
+
             if (slow_bot){
                 speed = 0.3;
                 mode = 1;
@@ -176,7 +176,7 @@ public class Q1OpMode extends LinearOpMode {
                 speed = 1.0;
                 mode = 4;
             }
-             */
+
 
             f_frontleft  = f_frontleft*speed;
             f_frontright = f_frontright*speed;
@@ -212,8 +212,8 @@ public class Q1OpMode extends LinearOpMode {
                 fourBar.setPosition(0.18);
             }
             else {
-                vleft.setPower(0);
-                vright.setPower(0);
+                vleft.setPower(0.2);
+                vright.setPower(0.2);
             }
             if (gamepad2.left_trigger > 0.1){
                 wrist.setPosition(0.8);
