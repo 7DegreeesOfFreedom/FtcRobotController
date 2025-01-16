@@ -11,26 +11,9 @@ buildscript {
     }
     dependencies {
         // Note for FTC Teams: Do not modify this yourself.
-        classpath 'com.android.tools.build:gradle:8.8.0'
+        classpath 'com.android.tools.build:gradle:7.2.0'
     }
 }
-//
-//defaultConfig {
-//    applicationId 'com.qualcomm.ftcrobotcontroller'
-//    minSdkVersion 24
-//    targetSdkVersion 28
-//    multiDexEnabled true
-//}
-//compileOptions {
-//    sourceCompatibility JavaVersion.VERSION_1_8
-//    targetCompatibility JavaVersion.VERSION_1_8
-//}
-//ndk {
-//    abiFilters "armeabi-v7a"
-//}
-//ndk {
-//    abiFilters "armeabi-v7a"
-//}
 
 // This is now required because aapt2 has to be downloaded from the
 // google() repository beginning with version 3.2 of the Android Gradle Plugin
