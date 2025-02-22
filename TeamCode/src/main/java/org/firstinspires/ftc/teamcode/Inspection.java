@@ -27,7 +27,7 @@ public class Inspection extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-                d.Timely(500, 500, 500, 500, 0.4);
+                d.Timely(1000, 1000, 1000, 1000, 0.8);
         }
     }
 }

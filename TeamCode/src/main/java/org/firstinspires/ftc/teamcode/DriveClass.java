@@ -13,6 +13,9 @@ public class DriveClass {
     private DcMotor backleftAsDcMotor;
     private DcMotor frontrightAsDcMotor;
     private DcMotor backrightAsDcMotor;
+    private DcMotor lift1;
+    private DcMotor lift2;
+
     private IMU imu;
     double botHeading;
     public void init(HardwareMap hwMap){
@@ -20,6 +23,8 @@ public class DriveClass {
         backleftAsDcMotor = hwMap.get(DcMotor.class, "backleft");
         frontrightAsDcMotor = hwMap.get(DcMotor.class, "frontright");
         backrightAsDcMotor = hwMap.get(DcMotor.class, "backright");
+        lift1 = hwMap.get(DcMotor.class, "lift1");
+        lift2 = hwMap.get(DcMotor.class, "lift2");
         imu = hwMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
@@ -185,5 +190,18 @@ public class DriveClass {
 
             Timely(-dist, -dist, dist, dist, 0.2);
         }
+    }
+    public void liftNT(int liftPos,double speed){
+        lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lift1.setTargetPosition(liftPos);
+        lift2.setTargetPosition(liftPos);
+
+        lift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lift1.setPower(speed);
+        lift2.setPower(speed);
     }
 }

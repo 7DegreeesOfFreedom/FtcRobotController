@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp()
-public class Q3OpMode extends LinearOpMode {
+public class Speci extends LinearOpMode {
     // Declare motors as a private attribute to the
     // class (Edwin isn't sure why it throws an error
     // when they are scoped to runOpMode).
@@ -105,9 +105,11 @@ public class Q3OpMode extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        Extendo.setPosition(ExtendoIn);
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
@@ -182,16 +184,17 @@ public class Q3OpMode extends LinearOpMode {
             backleft.setPower(f_backleft);
             backright.setPower(f_backright);
 
-            if (gamepad2.left_stick_x < 0){
+            /*if (gamepad2.left_stick_x < 0){
                 Extendo.setPosition(ExtendoOut);
-                IntakeWrist.setPosition(WristUp);
-                IntakePivot.setPosition(PivotDown);
-            }
-            else if (gamepad2.left_stick_x > 0){
-                Extendo.setPosition(ExtendoIn);
                 IntakeWrist.setPosition(PivotUp);
                 IntakePivot.setPosition(WristDown);
             }
+            else if (gamepad2.left_stick_x > 0){
+                Extendo.setPosition(ExtendoIn);
+                IntakeWrist.setPosition(PivotDown);
+                IntakePivot.setPosition(WristUp);
+            }
+             */
 
             /*if (gamepad1.dpad_right) {
                 IntakeWrist.setPosition(PivotDown);
@@ -203,49 +206,47 @@ public class Q3OpMode extends LinearOpMode {
                 IntakePivot.setPosition(WristDown);
             }
              */
-            if (gamepad1.right_bumper){
+            if (gamepad2.right_bumper){
                 //Intake.setPower(1);
                 claw.setPosition(ClawClosed);
             }
-            else if (gamepad1.left_bumper){
+            else if (gamepad2.left_bumper){
                 //Intake.setPower(-1);
                 claw.setPosition(ClawOpen);
             }
-            else{
+            //else{
                 //Intake.setPower(0);
-            }
-            if (gamepad1.x){
+            //}
+            /*if (gamepad1.x){
                 Extendo.setPosition(ExtendoOut);
             }
             else if (gamepad1.b){
                 Extendo.setPosition(ExtendoIn);
             }
+
+             */
             if (gamepad2.left_trigger > 0.1){
                 //lift1&2 down
                 lift1.setPower(0.5);
                 lift2.setPower(0.5);
-                outwrist.setPosition(Wristout);
-                claw.setPosition(ClawOpen);
             }
             else if (gamepad2.right_trigger > 0.1){
                 //lift1&2 up
                 lift1.setPower(-0.5);
                 lift2.setPower(-0.5);
-                outwrist.setPosition(Wristin);
-                claw.setPosition(ClawClosed);
             }
             else {
                 lift1.setPower(0);
                 lift2.setPower(0);
 
             }
-            if (gamepad1.y){
+            if (gamepad2.y){
                 //19/1b0
                 outwrist.setPosition(Wristout);
                 //diffyleft.setPosition(Diffycounter);
                 //diffyright.setPosition(Diffyclock);
             }
-            else if (gamepad1.a){
+            else if (gamepad2.a){
                 //0
                 outwrist.setPosition(Wristin);
                 //diffyright.setPosition(Diffycounter);

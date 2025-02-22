@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -18,6 +19,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp()
@@ -27,14 +30,18 @@ public class getMotorPOS extends LinearOpMode {
         // when they are scoped to runOpMode).
 
 
-        public DcMotor liftleft;
-        public DcMotor liftright;
+        //public DcMotor liftleft;
+        //public DcMotor liftright;
 
-        public DcMotor vleft;
-        public DcMotor vright;
+        public Servo diffyleft;
+        public Servo diffyright;
 
-        public Servo wrist;
-        public int liftPos;
+
+        //public DcMotor vleft;
+        //public DcMotor vright;
+
+        //public Servo wrist;
+        //public int liftPos;
         @Override
         public void runOpMode() {
             // Inform the user that the program is initializing.
@@ -42,16 +49,21 @@ public class getMotorPOS extends LinearOpMode {
             telemetry.update();
 
             // Get motors from hardwareMap.
-            liftleft = hardwareMap.get(DcMotor.class, "liftleft");
+            /*liftleft = hardwareMap.get(DcMotor.class, "liftleft");
             liftright = hardwareMap.get(DcMotor.class, "liftright");
             vleft = hardwareMap.get(DcMotor.class, "vleft");
             vright = hardwareMap.get(DcMotor.class, "vright");
             wrist = hardwareMap.get(Servo.class, "wrist");
+             */
+            diffyleft = hardwareMap.get(Servo.class, "diffyleft");
+            diffyright = hardwareMap.get(Servo.class, "diffyright");
+//get our analog input from the hardwareMap
+            AnalogInput leftInput = hardwareMap.get(AnalogInput.class, "diffyleft");
+            AnalogInput rightInput = hardwareMap.get(AnalogInput.class, "diffyright");
 
-
-
-
-
+// get the voltage of our analog line
+// divide by 3.3 (the max voltage) to get a value between 0 and 1
+// multiply by 360 to convert it to 0 to 360 degrees
 
 
             // Inform the user that everything has been initialized.
@@ -62,20 +74,20 @@ public class getMotorPOS extends LinearOpMode {
             waitForStart();
 
             // run until the end of the match (driver presses STOP)
-            liftright.setTargetPosition(0);
-            liftleft.setTargetPosition(0);
-            liftleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            liftright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            vleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            vright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //liftright.setTargetPosition(0);
+            //liftleft.setTargetPosition(0);
+            //liftleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //liftright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //vleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //vright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            liftleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            liftright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            vleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            vright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //liftleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            //liftright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            //vleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //vright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            liftleft.setDirection(DcMotorSimple.Direction.REVERSE);
-            vright.setDirection(DcMotorSimple.Direction.REVERSE);
+            //liftleft.setDirection(DcMotorSimple.Direction.REVERSE);
+            //vright.setDirection(DcMotorSimple.Direction.REVERSE);
             while (opModeIsActive()) {
 
 //1510 extendo pos
@@ -87,13 +99,18 @@ public class getMotorPOS extends LinearOpMode {
                 while (opModeIsActive()) {
 
 
-                    telemetry.addData("liftLeft",liftleft.getCurrentPosition());
-                    telemetry.addData("liftRight",liftright.getCurrentPosition());
-                    telemetry.addData("Vleft",vleft.getCurrentPosition());
-                    telemetry.addData("Vright",vright.getCurrentPosition());
+                    //telemetry.addData("liftLeft",liftleft.getCurrentPosition());
+                    //telemetry.addData("liftRight",liftright.getCurrentPosition());
+                    //telemetry.addData("Vleft",vleft.getCurrentPosition());
+                    //telemetry.addData("Vright",vright.getCurrentPosition());
+                    double leftposition = leftInput.getVoltage() / 3.3 * 360;
+                    double rightposition = leftInput.getVoltage() / 3.3 * 360;
+
+                    telemetry.addData("DiffyLeft", diffyleft.getPosition());
+                    telemetry.addData("DiffyRight", diffyright.getPosition());
                     telemetry.update();
 
-                    if(gamepad2.right_bumper){
+                    /*if(gamepad2.right_bumper){
                         liftleft.setTargetPosition(1500);
                         liftright.setTargetPosition(1500);
                         liftleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -129,6 +146,7 @@ public class getMotorPOS extends LinearOpMode {
                         vright.setPower(.3);
 
                     }
+                     */
 
 
 
