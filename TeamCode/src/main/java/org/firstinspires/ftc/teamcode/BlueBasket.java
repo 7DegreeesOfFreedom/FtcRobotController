@@ -68,11 +68,13 @@ public class BlueBasket extends LinearOpMode {
         if (opModeIsActive()) {
             d.Timely(-800,-800,-800,-800,0.8);
             d.Timely(1000, -1000, -1000, 1000, 0.8);
-            d.liftNT(3000,0.5);
             outwrist.setPosition(Wristin);
             sleep(500);
+            d.liftNT(3000,0.5);
             d.Timely(-100,-100,-100,-100,0.2);
             d.liftNT(-3000,0.5);
+            claw.setPosition(ClawOpen);
+            d.Timely(100,100,100,100,0.8);
         }
     }
 }
